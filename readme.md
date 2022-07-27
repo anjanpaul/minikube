@@ -42,3 +42,43 @@ Alternatively, minikube can download the appropriate version of kubectl and you 
 minikube kubectl -- get po -A
 
 ```
+
+# Argo CD
+
+## Requirements
+* nstalled kubectl command-line tool.
+* Have a kubeconfig file (default location is ~/.kube/config).
+* CoreDNS. Can be enabled for microk8s by microk8s enable dns && microk8s stop && microk8s start
+
+## 1. Install Argo CD
+
+```
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+```
+
+## 2.Port Forwarding
+Kubectl port-forwarding can also be used to connect to the API server without exposing the service.
+
+```
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+```
+
+To get admin password:
+
+```
+kubectl get secret argocd-initial-admin-secret -n argocd -o yaml
+
+```
+
+To decode secrets:
+```
+echo OTBFLXRUWTRBWC1SYXdDRA== | base64 --decode
+
+```
+
+The output you will get a password
+
+AND BOOM
